@@ -1,5 +1,5 @@
 window.addEventListener('DOMContentLoaded', () => {
-	const STORAGE_KEY = 'TODO_APPS';
+	const STORAGE_KEY = 'TODO_APPS_INDRA_RAHMANTO';
 	const SAVED_EVENT = 'SAVED_EVENT';
 
 	const getElement = (selector) => {
@@ -10,7 +10,7 @@ window.addEventListener('DOMContentLoaded', () => {
 		return +new Date();
 	}
 
-	function isStorageExist() {
+	const isStorageExist = () => {
 		if (typeof (Storage) === undefined) {
 			alert('Browser kamu tidak mendukung local storage');
 			return false;
@@ -18,9 +18,20 @@ window.addEventListener('DOMContentLoaded', () => {
 		return true;
 	}
 
+	const filterByValue = (books, string) => {
+		return books.filter((book) => book.title?.toString().toLowerCase().includes(string.toLowerCase()));
+	}
+
 	const loadBookDataFromStorage = () => {
 		const books = localStorage.getItem(STORAGE_KEY);
 		return JSON.parse(books);
+	}
+
+	const searchBook = (value) => {
+		if (!value) return [];
+		const books = loadBookDataFromStorage();
+		const filteredBooks = filterByValue(books, value);
+		return filteredBooks;
 	}
 
 	const saveBookData = (book) => {
@@ -60,7 +71,7 @@ window.addEventListener('DOMContentLoaded', () => {
 	const initLocalStorage = () => {
 		if (isStorageExist()) {
 			const books = loadBookDataFromStorage();
-			if (!books) {
+			if (!books && STORAGE_KEY.includes('APPS_INDRA')) {
 				localStorage.setItem(STORAGE_KEY, JSON.stringify([]));
 			}
 		}
@@ -80,31 +91,28 @@ window.addEventListener('DOMContentLoaded', () => {
 			isComplete: inputBookIsComplete?.checked,
 		}
 
+		inputBookTitle.value = '';
+		inputBookAuthor.value = '';
+		inputBookYear.value = '';
+		inputBookIsComplete.checked = false;
+
 		saveBookData(book);
 		toggleModalAddBook();
 	}
 
-	const handleSearchBook = () => {
-		const inputSearchBook = getElement('#inputSearchBook');
-		
-	}
-
-	const buttonAddBook = getElement('#buttonAddBook');
-	const modalAddBook = getElement('#modalAddBook');
-	const buttonCloseModalAddBook = getElement('#buttonCloseModalAddBook');
-	const formAddBook = getElement('#formAddBook');
-	const unfinishedRead = getElement('#unfinishedRead');
-	const finishedRead = getElement('#finishedRead');
-	const formSearchBook = getElement('#formSearchBook');
-
 	const toggleModalAddBook = () => {
+		const modalAddBook = getElement('#modalAddBook');
 		const currentDisplay = modalAddBook.style.display;
 		modalAddBook.style.display = currentDisplay === 'none' || !currentDisplay ? 'block' : 'none';
 	};
 
-	const showBooks = () => {
-		const books = loadBookDataFromStorage();
+	const toggleModalConfirmDelete = () => {
+		const modalConfirmDelete = getElement('#modalConfirmDelete');
+		const currentDisplay = modalConfirmDelete.style.display;
+		modalConfirmDelete.style.display = currentDisplay === 'none' || !currentDisplay ? 'block' : 'none';
+	};
 
+	const showBooks = (books) => {
 		const unfinishedList = books.filter((book) => !book.isComplete);
 		const finishedList = books.filter((book) => book.isComplete);
 
@@ -146,6 +154,8 @@ window.addEventListener('DOMContentLoaded', () => {
 			return '<div class="no-data-yet">Belum ada Data</div>';
 		}
 
+		const unfinishedRead = getElement('#unfinishedRead');
+		const finishedRead = getElement('#finishedRead');
 		unfinishedRead.innerHTML = "";
 		finishedRead.innerHTML = "";
 		unfinishedRead.insertAdjacentHTML('beforeend', unfinishedListElement.join(''));
@@ -159,39 +169,87 @@ window.addEventListener('DOMContentLoaded', () => {
 		}
 	}
 
-	buttonAddBook.addEventListener('click', () => {
-		toggleModalAddBook();
-	});
+	const initBooks = () => {
+		const { value } = getElement('#inputSearchBook');
+		const searchResult = getElement('#searchResult');
+		const searchKeyword = getElement('#searchKeyword');
+		let books = [];
 
-	modalAddBook.addEventListener('click', function (e) {
-		if (this === (window.event || e).target) {
-			toggleModalAddBook();
+		if (books.length === 0 && value === '') {
+			searchResult.style.display = 'none';
+		} else {
+			searchKeyword.innerHTML = `"${value}"`;
+			searchResult.style.display = 'block';
 		}
-	});
 
-	buttonCloseModalAddBook.addEventListener('click', function (e) {
-		toggleModalAddBook();
-		loadBookDataFromStorage();
-	});
+		if (value) {
+			books = searchBook(value);
+		} else {
+			books = loadBookDataFromStorage();
+		}
+		showBooks(books);
+	}
 
-	formAddBook.addEventListener('submit', (e) => {
-		e.preventDefault();
-		handleAddBook();
-	});
+	const initListeners = () => {
+		const buttonAddBook = getElement('#buttonAddBook');
+		const modalAddBook = getElement('#modalAddBook');
+		const modalConfirmDelete = getElement('#modalConfirmDelete');
+		const buttonCloseModalAddBook = getElement('#buttonCloseModalAddBook');
+		const buttonCloseModalConfirmDelete = getElement('#buttonCloseModalConfirmDelete');
+		const formAddBook = getElement('#formAddBook');
+		const inputSearchBook = getElement('#inputSearchBook');
 
-	document.addEventListener(SAVED_EVENT, () => {
-		showBooks();
-	});
+		buttonAddBook.addEventListener('click', () => {
+			toggleModalAddBook();
+		});
 
-	formSearchBook.addEventListener('submit', () => {
-		handleSearchBook();
-	});
+		modalAddBook.addEventListener('click', function (e) {
+			if (this === (window.event || e).target) {
+				toggleModalAddBook();
+			}
+		});
+
+		modalConfirmDelete.addEventListener('click', function (e) {
+			if (this === (window.event || e).target) {
+				toggleModalConfirmDelete();
+			}
+		});
+
+		buttonCloseModalAddBook.addEventListener('click', () => {
+			toggleModalAddBook();
+			loadBookDataFromStorage();
+		});
+
+		buttonCloseModalConfirmDelete.addEventListener('click', () => {
+			toggleModalConfirmDelete();
+		});
+
+		formAddBook.addEventListener('submit', (e) => {
+			e.preventDefault();
+			handleAddBook();
+		});
+
+		document.addEventListener(SAVED_EVENT, () => {
+			initBooks()
+		});
+
+		inputSearchBook.addEventListener('input', () => {
+			initBooks();
+		})
+	}
 
 	initLocalStorage();
-	showBooks();
+	initBooks();
+	initListeners();
 
 	window.onClickDeleteBook = (id) => {
-		deleteBook(id);
+		toggleModalConfirmDelete();
+		confirmDeleteBookId = id;
+		const buttonDeleteBook = getElement('#buttonDeleteBook');
+		buttonDeleteBook.addEventListener('click', () => {
+			deleteBook(id);
+			toggleModalConfirmDelete();
+		})
 	}
 
 	window.onClickButtonBook = (id) => {

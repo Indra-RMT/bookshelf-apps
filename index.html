@@ -10,6 +10,8 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500&display=swap" rel="stylesheet">
+	<link rel="icon" href="https://dicoding-web-img.sgp1.cdn.digitaloceanspaces.com/original/commons/new-ui-logo.png"
+		type="image/x-icon">
 </head>
 
 <body>
@@ -31,14 +33,11 @@
 				<input id="inputSearchBook" type="text" placeholder="cari buku" class="input-search-book" />
 			</form>
 		</div>
-		<div class="search-results-wrapper">
-			<h2>Hasil Pencarian</h2>
-			<div>
-				1....
-			</div>
+		<div id="searchResult" class="search-results-wrapper">
+			<h2>Hasil Pencarian <span id="searchKeyword"></span></h2>
 		</div>
 	</section>
-	<section class="container book-section-wrapper">
+	<section id="bookSection" class="container book-section-wrapper">
 		<div class="book-section">
 			<h3 class="section-subheading">Belum Selesai Dibaca</h3>
 			<div id="unfinishedRead" class="book-list">
@@ -50,8 +49,8 @@
 			</div>
 		</div>
 	</section>
-	<div id="modalAddBook" class="modal-add-book">
-		<div id="modalDialog" class="modal-dialog">
+	<div id="modalAddBook" class="modal">
+		<div class="modal-dialog">
 			<div class="modal-header">
 				<h4>Masukkan Buku</h4>
 				<button id="buttonCloseModalAddBook" class="modal-close">
@@ -82,6 +81,26 @@
 					</div>
 					<button id="bookSubmit" type="submit" class="btn btn-primary">Masukkan Buku ke Rak</button>
 				</form>
+			</div>
+		</div>
+	</div>
+	<div id="modalConfirmDelete" class="modal" style="display: none">
+		<div class="modal-dialog">
+			<div class="modal-header">
+				<h4>Hapus Buku?</h4>
+				<button id="buttonCloseModalConfirmDelete" class="modal-close">
+					<svg width="14" height="14" class="" viewBox="0 0 14 14" fill="#3F3F46" xmlns="http://www.w3.org/2000/svg">
+						<path d="M13 1L1 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+						</path>
+						<path d="M1 1L13 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+						</path>
+					</svg>
+			</div>
+			<div class="modal-body">
+				<div class="form-confirm-delete">
+					<button type="submit" class="btn btn-small">Tidak</button>
+					<button id="buttonDeleteBook" type="submit" class="btn btn-danger btn-small">Hapus</button>
+				</div>
 			</div>
 		</div>
 	</div>

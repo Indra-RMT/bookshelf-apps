@@ -178,6 +178,7 @@ button {
 
 .search-results-wrapper {
 	display: none;
+	margin-bottom: 16px;
 }
 
 .book-section-wrapper {
@@ -188,6 +189,10 @@ button {
 
 .book-section {
 	flex-grow: 1;
+}
+
+.section-subheading {
+	margin-bottom: 8px;
 }
 
 .book-list {
@@ -213,7 +218,7 @@ button {
 	gap: 8px;
 }
 
-.modal-add-book {
+.modal {
 	height: 100vh;
 	width: 100vw;
 	background-color: #3D3D3D60;
@@ -297,4 +302,14 @@ button {
 
 .no-data-yet {
 	color: #424242
+}
+
+.form-confirm-delete {
+	display: flex;
+	gap: 16px;
+	justify-content: space-between;
+}
+
+.form-confirm-delete>button {
+	width: 100%;
 }
