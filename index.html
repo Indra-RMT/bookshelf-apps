@@ -18,8 +18,8 @@
 	</nav>
 	<section class="container bookshelf-input">
 		<div class="add-search-wrapper">
-			<button id="button-add-book" class="btn btn-primary">Tambah Buku</button>
-			<form class="form-search">
+			<button id="buttonAddBook" class="btn btn-primary">Tambah Buku</button>
+			<form id="formSearchBook" class="form-search">
 				<svg width="16" height="16" viewBox="0 0 16 16" fill="none" class="search-icon"
 					xmlns="http://www.w3.org/2000/svg">
 					<path fill-rule="evenodd" clip-rule="evenodd"
@@ -28,7 +28,7 @@
 					<path d="M10.1953 11.1381L13.5286 14.4715L14.4715 13.5286L11.1381 10.1953L10.1953 11.1381Z" fill="#A1A1AA">
 					</path>
 				</svg>
-				<input type="text" placeholder="cari buku" class="input-search-book" />
+				<input id="inputSearchBook" type="text" placeholder="cari buku" class="input-search-book" />
 			</form>
 		</div>
 		<div class="search-results-wrapper">
@@ -41,86 +41,20 @@
 	<section class="container book-section-wrapper">
 		<div class="book-section">
 			<h3 class="section-subheading">Belum Selesai Dibaca</h3>
-			<div class="book-list">
-				<div class="book-item">
-					<div>
-						<div class="book-title">Harry Poter</div>
-						<div>2000</div>
-					</div>
-					<div>Jk Rowling</div>
-					<div class="book-action">
-						<button>Selesai Dibaca</button>
-						<button>Hapus</button>
-					</div>
-				</div>
-				<div class="book-item">
-					<div>
-						<div>Harry Poter</div>
-						<div>2000</div>
-					</div>
-					<div>Jk Rowling</div>
-					<div>
-						<button>Selesai Dibaca</button>
-						<button>Hapus</button>
-					</div>
-				</div>
-				<div class="book-item">
-					<div>
-						<div>Harry Poter</div>
-						<div>2000</div>
-					</div>
-					<div>Jk Rowling</div>
-					<div>
-						<button>Selesai Dibaca</button>
-						<button>Hapus</button>
-					</div>
-				</div>
+			<div id="unfinishedRead" class="book-list">
 			</div>
 		</div>
 		<div class="book-section">
 			<h3 class="section-subheading">Selesai Dibaca</h3>
-			<div class="book-list">
-				<div class="book-item">
-					<div>
-						<div>Harry Poter</div>
-						<div>2000</div>
-					</div>
-					<div>Jk Rowling</div>
-					<div>
-						<button>Selesai Dibaca</button>
-						<button>Hapus</button>
-					</div>
-				</div>
-				<div class="book-item">
-					<div>
-						<div>Harry Poter</div>
-						<div>2000</div>
-					</div>
-					<div>Jk Rowling</div>
-					<div>
-						<button>Selesai Dibaca</button>
-						<button>Hapus</button>
-					</div>
-				</div>
-				<div class="book-item">
-					<div>
-						<div>Harry Poter</div>
-						<div>2000</div>
-					</div>
-					<div>Jk Rowling</div>
-					<div>
-						<button>Selesai Dibaca</button>
-						<button>Hapus</button>
-					</div>
-				</div>
+			<div id="finishedRead" class="book-list">
 			</div>
 		</div>
 	</section>
-	<div class="modal-add-book">
-		<div class="modal-dialog">
+	<div id="modalAddBook" class="modal-add-book">
+		<div id="modalDialog" class="modal-dialog">
 			<div class="modal-header">
 				<h4>Masukkan Buku</h4>
-				<button class="modal-close">
+				<button id="buttonCloseModalAddBook" class="modal-close">
 					<svg width="14" height="14" class="" viewBox="0 0 14 14" fill="#3F3F46" xmlns="http://www.w3.org/2000/svg">
 						<path d="M13 1L1 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 						</path>
@@ -129,7 +63,7 @@
 					</svg>
 			</div>
 			<div class="modal-body">
-				<form class="form-add-book">
+				<form id="formAddBook" class="form-add-book">
 					<div class="input">
 						<label for="inputBookTitle">Judul</label>
 						<input id="inputBookTitle" type="text" required>
@@ -146,7 +80,7 @@
 						<label for="inputBookIsComplete">Selesai dibaca</label>
 						<input id="inputBookIsComplete" type="checkbox">
 					</div>
-					<button id="bookSubmit" type="submit">Masukkan Buku ke rak</button>
+					<button id="bookSubmit" type="submit" class="btn btn-primary">Masukkan Buku ke Rak</button>
 				</form>
 			</div>
 		</div>
